@@ -1,8 +1,9 @@
 services:
   - type: web
     name: backend
-    env: docker
-    dockerfilePath: Backend/Dockerfile
+    env: java
+    buildCommand: ./mvnw clean package
+    startCommand: java -jar target/Backend-0.0.1-SNAPSHOT.jar
     envVars:
       - key: PORT
         value: "8080"
@@ -11,16 +12,16 @@ services:
     plan: free
     autoDeploy: true
 
-  - type: web
+  - type: static
     name: frontend
-    env: docker
-    dockerfilePath: my-app/Dockerfile
-    buildArgs:
+    env: node
+    buildCommand: npm install && npm run build
+    publishPath: build
+    envVars:
       - key: REACT_APP_API_BASE_URL
         value: "https://backend.onrender.com"
       - key: REACT_APP_WS_BASE_URL
         value: "https://backend.onrender.com"
-    envVars:
       - key: PORT
         value: "80"
     plan: free
