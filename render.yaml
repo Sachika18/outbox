@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: backend
+    env: docker
+    dockerfilePath: Backend/Dockerfile
+    envVars:
+      - key: PORT
+        value: "8080"
+      - key: MONGODB_URI
+        value: "mongodb+srv://sachikaa10:hiiamsach@employee.dcxsjyj.mongodb.net/hrsystem?retryWrites=true&w=majority&appName=Employee"
+    plan: free
+    autoDeploy: true
+
+  - type: web
+    name: frontend
+    env: docker
+    dockerfilePath: my-app/Dockerfile
+    buildArgs:
+      - key: REACT_APP_API_BASE_URL
+        value: "https://backend.onrender.com"
+      - key: REACT_APP_WS_BASE_URL
+        value: "https://backend.onrender.com"
+    envVars:
+      - key: PORT
+        value: "80"
+    plan: free
+    autoDeploy: true
